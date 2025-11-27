@@ -1,0 +1,16 @@
+---
+name: redux-best-practices.mdc
+
+description: Best practices for state management with Redux
+
+globs: **/*.{ts,tsx}
+
+---
+
+- Use Redux Toolkit for simplified store setup and management
+
+- Normalize state shape to avoid deeply nested structures
+
+- Use selectors for accessing state to improve performance
+
+- Implement middleware for handling side effects (e.g., redux-thunk)

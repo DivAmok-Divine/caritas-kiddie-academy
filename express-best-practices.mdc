@@ -1,0 +1,16 @@
+---
+name: express-best-practices.mdc
+
+description: Best practices for building APIs with Express
+
+globs: **/*.{js,ts}
+
+---
+
+- Use middleware for error handling and logging
+
+- Organize routes in separate modules for scalability
+
+- Implement input validation and sanitization
+
+- Use environment variables for configuration management

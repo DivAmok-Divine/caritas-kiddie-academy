@@ -1,0 +1,16 @@
+---
+name: jest-best-practices.mdc
+
+description: Best practices for testing with Jest
+
+globs: **/*.{ts,tsx,js,jsx}
+
+---
+
+- Write unit tests for components and functions
+
+- Use snapshot testing for React components
+
+- Mock external dependencies to isolate tests
+
+- Organize tests in a dedicated `__tests__` directory

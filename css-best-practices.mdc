@@ -1,0 +1,18 @@
+---
+name: css-best-practices.mdc
+
+description: Best practices for CSS styling
+
+globs: **/*.css
+
+---
+
+- Use BEM (Block Element Modifier) methodology for class naming.
+
+- Minimize CSS specificity to avoid conflicts.
+
+- Utilize CSS variables for consistent theming.
+
+- Implement responsive design with media queries.
+
+- Centralize common styles (e.g., colors, fonts) in a single file for easy updates.

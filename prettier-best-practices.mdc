@@ -1,0 +1,16 @@
+---
+name: prettier-best-practices.mdc
+
+description: Best practices for code formatting with Prettier
+
+globs: **/*.{ts,tsx,js,jsx,json,css}
+
+---
+
+- Use Prettier for consistent code formatting across the project
+
+- Configure Prettier to work with ESLint for seamless integration
+
+- Set up format on save in your IDE for automatic formatting
+
+- Define a `.prettierrc` file for project-specific formatting rules

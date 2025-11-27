@@ -1,0 +1,16 @@
+---
+name: tailwindcss-best-practices.mdc
+
+description: Best practices for styling with Tailwind CSS
+
+globs: **/*.{ts,tsx,css}
+
+---
+
+- Use utility-first classes for rapid styling
+
+- Create custom themes and extend Tailwind configuration
+
+- Ensure responsive design with Tailwind's responsive utilities
+
+- Avoid excessive use of `!important` for maintainability

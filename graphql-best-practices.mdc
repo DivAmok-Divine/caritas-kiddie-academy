@@ -1,0 +1,16 @@
+---
+name: graphql-best-practices.mdc
+
+description: Best practices for using GraphQL
+
+globs: **/*.{ts,tsx}
+
+---
+
+- Use fragments to avoid duplication in queries
+
+- Implement error handling for GraphQL responses
+
+- Use Apollo Client for state management and caching
+
+- Structure queries and mutations for clarity and maintainability

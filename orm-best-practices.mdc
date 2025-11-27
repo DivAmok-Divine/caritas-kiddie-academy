@@ -1,0 +1,18 @@
+---
+name: orm-best-practices.mdc
+
+description: Best practices for using ORM with PostgreSQL
+
+globs: **/*.py
+
+---
+
+- Use declarative base classes for model definitions.
+
+- Implement relationships using foreign keys for data integrity.
+
+- Utilize migrations to manage database schema changes.
+
+- Optimize queries with eager loading to reduce database hits.
+
+- Create reusable query functions to encapsulate common database operations.

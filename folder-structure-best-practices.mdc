@@ -1,0 +1,16 @@
+---
+name: folder-structure-best-practices.mdc
+
+description: Best practices for organizing project folder structure
+
+globs: **/*
+
+---
+
+- Organize frontend components in a dedicated `frontend` folder, grouping them systematically based on usage and functionality.
+
+- Create a `backend` folder for server-side components, ensuring logical grouping for maintainability.
+
+- Establish an `orm` folder for database models and queries, organizing components based on their usage and relationships.
+
+- Maintain a consistent naming convention across folders and files for clarity and ease of navigation.

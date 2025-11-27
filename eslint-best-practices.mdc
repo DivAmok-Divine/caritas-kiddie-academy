@@ -1,0 +1,16 @@
+---
+name: eslint-best-practices.mdc
+
+description: Best practices for linting with ESLint
+
+globs: **/*.{ts,tsx,js,jsx}
+
+---
+
+- Use a consistent coding style with ESLint rules
+
+- Integrate ESLint with your IDE for real-time feedback
+
+- Set up pre-commit hooks to prevent linting errors in commits
+
+- Regularly update ESLint and plugins for the latest features

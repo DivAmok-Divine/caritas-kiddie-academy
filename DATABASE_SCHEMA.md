@@ -2,7 +2,9 @@
 
 ## Suggested Database Tables
 
-Based on research and best practices for school management systems, especially for pre-school/elementary levels, here are the recommended tables:
+**System Type:** Daycare/Nursery Management System for Infants and Toddlers (6 months - 2 years)
+
+Based on research and best practices for daycare and nursery management systems for very young children, here are the recommended tables:
 
 ---
 
@@ -13,25 +15,31 @@ Based on research and best practices for school management systems, especially f
 - `user_name` 
 - `email` (unique)
 - `password_hash`
-- `role` (enum: admin, teacher, parent, student)
+- `role` (enum: admin, teacher, parent)
 - `is_active` (boolean)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
-### `students`
-- `student_id` (PK, UUID)
+### `children`
+- `child_id` (PK, UUID)
 - `user_id` (FK → users)
-- `student_code` (unique, e.g., STU-2024-001)
+- `child_enrollment_code` (unique, CK001A - format of code: Generated randomly based on creation -  cannot be reused)
 - `first_name`
 - `last_name`
 - `date_of_birth`
-- `gender` (enum: male, female, other)
+- `age_in_months` (calculated field - from date of birth automatic)
+- `gender` (enum: male, female)
 - `photo_url` 
 - `address`
+- `allergies` (text, nullable - critical for infants/toddlers)
+- `medical_conditions` (text, nullable)
+- `medications` (text, nullable)
+- `special_care_instructions` (text, nullable)
 - `emergency_contact_name`
 - `emergency_contact_phone`
 - `enrollment_date`
-- `status` (enum: active, graduated, transferred, inactive)
+- `enrollment_age_months` (integer - age when enrolled)
+- `status` (enum: active, graduated, transferred, inactive, waitlisted)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
@@ -43,24 +51,25 @@ Based on research and best practices for school management systems, especially f
 - `email` (unique)
 - `occupation`
 - `address`
-- `relationship_to_student` (enum: mother, father, guardian, other) -  option to type if other selected.
+- `relationship_to_child` (enum: mother, father, guardian, other) -  option to type if other selected.
 - `is_primary_contact` (boolean)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
-### `student_parent_relationships`
+### `child_parent_relationships`
 - `relationship_id` (PK, UUID)
-- `student_id` (FK → students)
+- `child_id` (FK → children)
 - `parent_id` (FK → parents_guardians)
 - `relationship_type` (enum: mother, father, guardian, other)
 - `is_primary` (boolean)
+- `is_authorized_pickup` (boolean - who can pick up the child)
 - `created_at` (timestamp)
 
 ### `employees`
 - `employee_id` (PK, UUID)
 - `user_id` (FK → users)
-- `employee_code` (unique, e.g., TCH-2024-001, STF-2024-001)
-- `employee_type` (enum: teacher, principal, vice_principal, secretary, accountant, nurse, security, cleaner, other)
+- `employee_code` (unique, e.g., CAR-2024-001, NUR-2024-001)
+- `employee_type` (enum: caregiver, lead_caregiver, nurse, administrator, secretary, accountant, security, cleaner, cook, other)
 - `first_name`
 - `last_name`
 - `date_of_birth` (nullable)
@@ -69,9 +78,12 @@ Based on research and best practices for school management systems, especially f
 - `phone_number`
 - `address`
 - `hire_date`
-- `qualifications` (text, nullable - mainly for teachers)
-- `specialization` (text, nullable - mainly for teachers)
-- `position` (text, nullable - for non-teaching staff, can be used if employee_type is "other")
+- `qualifications` (text, nullable - childcare certifications, CPR training, etc.)
+- `specialization` (text, nullable - infant care, toddler care, special needs)
+- `position` (text, nullable - for non-caregiving staff)
+- `cpr_certified` (boolean)
+- `first_aid_certified` (boolean)
+- `background_check_date` (date)
 - `status` (enum: active, on_leave, terminated, suspended, probation, retired, contract_ended)
 - `photo_url` (nullable)
 - `created_at` (timestamp)
@@ -79,64 +91,47 @@ Based on research and best practices for school management systems, especially f
 
 ---
 
-## 2. Academic Structure Tables
+## 2. Room & Group Structure Tables
 
-### `academic_years`
-- `academic_year_id` (PK, UUID)
-- `year_name` (e.g., "2024-2025")
-- `start_date` (date)
-- `end_date` (date)
-- `is_current` (boolean)
-- `status` (enum: upcoming, active, completed)
-- `created_at` (timestamp)
-- `updated_at` (timestamp)
-
-### `terms_semesters`
-- `term_id` (PK, UUID)
-- `academic_year_id` (FK → academic_years)
-- `term_name` (e.g., "First Term", "Second Term", "Third Term")
-- `start_date` (date)
-- `end_date` (date)
-- `is_current` (boolean)
-- `created_at` (timestamp)
-- `updated_at` (timestamp)
-
-### `classes`
-- `class_id` (PK, UUID)
-- `class_name` (e.g., "Nursery A", "Kindergarten 1", "Grade 1")
-- `class_code` (unique, e.g., "NUR-A", "KG-1")
-- `grade_level` (integer, e.g., 0 for nursery, 1 for KG1)
-- `capacity` (integer)
+### `rooms`
+- `room_id` (PK, UUID)
+- `room_name` (e.g., "Infant Room A", "Toddler Room B", "Crawler Room")
+- `room_code` (unique, e.g., "INF-A", "TOD-B")
+- `room_type` (enum: infant, crawler, toddler, mixed_age)
+- `age_range_min_months` (integer, e.g., 6)
+- `age_range_max_months` (integer, e.g., 12)
+- `capacity` (integer - based on child-to-caregiver ratios)
 - `current_enrollment` (integer, default 0)
-- `academic_year_id` (FK → academic_years)
-- `class_teacher_id` (FK → employees, where employee_type = 'teacher')
-- `room_number` (optional)
+- `lead_caregiver_id` (FK → employees, where employee_type = 'lead_caregiver')
+- `room_number` (text)
+- `status` (enum: active, inactive, maintenance)
+- `created_at` (timestamp)
+- `updated_at` (timestamp)
+
+### `activities`
+- `activity_id` (PK, UUID)
+- `activity_name` (e.g., "Tummy Time", "Sensory Play", "Story Time", "Music & Movement")
+- `activity_code` (unique)
+- `description` (text)
+- `age_appropriate_min_months` (integer)
+- `age_appropriate_max_months` (integer)
+- `activity_type` (enum: physical, cognitive, social, sensory, creative, music, story, outdoor)
+- `duration_minutes` (integer)
 - `status` (enum: active, inactive)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
-### `subjects`
-- `subject_id` (PK, UUID)
-- `subject_name` (e.g., "Mathematics", "English", "Art", "Music")
-- `subject_code` (unique)
-- `description` (text, optional)
-- `grade_level` (integer, nullable - null means all levels)
-- `is_core` (boolean)
-- `status` (enum: active, inactive)
-- `created_at` (timestamp)
-- `updated_at` (timestamp)
-
-### `class_subjects`
-- `class_subject_id` (PK, UUID)
-- `class_id` (FK → classes)
-- `subject_id` (FK → subjects)
-- `teacher_id` (FK → employees, where employee_type = 'teacher')
-- `academic_year_id` (FK → academic_years)
-- `term_id` (FK → terms_semesters)
+### `daily_schedules`
+- `schedule_id` (PK, UUID)
+- `room_id` (FK → rooms)
+- `activity_id` (FK → activities)
 - `schedule_day` (enum: monday, tuesday, wednesday, thursday, friday)
 - `start_time` (time)
 - `end_time` (time)
+- `caregiver_id` (FK → employees, where employee_type IN ('caregiver', 'lead_caregiver'))
+- `status` (enum: active, inactive)
 - `created_at` (timestamp)
+- `updated_at` (timestamp)
 
 ---
 
@@ -144,94 +139,109 @@ Based on research and best practices for school management systems, especially f
 
 ### `enrollments`
 - `enrollment_id` (PK, UUID)
-- `student_id` (FK → students)
-- `class_id` (FK → classes)
-- `academic_year_id` (FK → academic_years)
+- `child_id` (FK → children)
+- `room_id` (FK → rooms)
 - `enrollment_date` (date)
-- `enrollment_status` (enum: pending, approved, rejected, withdrawn)
-- `previous_school` (text, optional)
+- `enrollment_status` (enum: pending, approved, rejected, withdrawn, waitlisted)
+- `enrollment_type` (enum: full_time, part_time, drop_in)
+- `schedule_days` (array of days: monday, tuesday, wednesday, thursday, friday)
+- `start_time` (time)
+- `end_time` (time)
+- `previous_care` (text, optional - previous daycare/nursery)
 - `notes` (text, optional)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
 ---
 
-## 4. Attendance Tables
+## 4. Attendance & Daily Care Tables
 
-### `attendance`
-- `attendance_id` (PK, UUID)
-- `student_id` (FK → students)
-- `class_id` (FK → classes)
-- `attendance_date` (date)
-- `status` (enum: present, absent, late, excused, sick)
-- `check_in_time` (timestamp, nullable)
+### `daily_check_in_out`
+- `check_in_out_id` (PK, UUID)
+- `child_id` (FK → children)
+- `room_id` (FK → rooms)
+- `check_in_date` (date)
+- `check_in_time` (timestamp)
 - `check_out_time` (timestamp, nullable)
+- `checked_in_by` (FK → parents_guardians)
+- `checked_out_by` (FK → parents_guardians, nullable)
+- `authorized_pickup_person` (text, nullable - if different from parent)
 - `notes` (text, optional)
-- `marked_by` (FK → employees, where employee_type = 'teacher')
+- `created_at` (timestamp)
+- `updated_at` (timestamp)
+
+### `daily_care_logs`
+- `care_log_id` (PK, UUID)
+- `child_id` (FK → children)
+- `room_id` (FK → rooms)
+- `log_date` (date)
+- `caregiver_id` (FK → employees, where employee_type IN ('caregiver', 'lead_caregiver'))
+- `feeding_times` (json array - time, type, amount, notes)
+- `diaper_changes` (json array - time, type, notes)
+- `nap_times` (json array - start_time, end_time, duration_minutes)
+- `activities_participated` (json array - activity_id, duration, notes)
+- `mood` (enum: happy, content, fussy, crying, sleepy, playful)
+- `health_notes` (text, nullable - temperature, symptoms, etc.)
+- `special_notes` (text, nullable - any concerns or observations)
+- `parent_notified` (boolean, default false)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
 ### `attendance_summary`
 - `summary_id` (PK, UUID)
-- `student_id` (FK → students)
-- `class_id` (FK → classes)
-- `academic_year_id` (FK → academic_years)
-- `term_id` (FK → terms_semesters)
-- `total_days` (integer)
-- `present_days` (integer)
-- `absent_days` (integer)
-- `late_days` (integer)
+- `child_id` (FK → children)
+- `room_id` (FK → rooms)
+- `month` (integer, 1-12)
+- `year` (integer)
+- `total_days_enrolled` (integer)
+- `days_present` (integer)
+- `days_absent` (integer)
 - `attendance_percentage` (decimal)
 - `updated_at` (timestamp)
 
 ---
 
-## 5. Academic Performance Tables
+## 5. Developmental Milestones & Progress Tables
 
-### `assignments`
-- `assignment_id` (PK, UUID)
-- `class_id` (FK → classes)
-- `subject_id` (FK → subjects)
-- `teacher_id` (FK → employees, where employee_type = 'teacher')
-- `title`
+### `developmental_milestones`
+- `milestone_id` (PK, UUID)
+- `milestone_name` (e.g., "Sitting up", "Crawling", "First words", "Walking")
+- `category` (enum: physical, cognitive, language, social, emotional)
+- `typical_age_min_months` (integer)
+- `typical_age_max_months` (integer)
 - `description` (text)
-- `due_date` (date)
-- `total_marks` (decimal)
-- `assignment_type` (enum: homework, project, quiz, test, exam)
-- `academic_year_id` (FK → academic_years)
-- `term_id` (FK → terms_semesters)
-- `status` (enum: draft, published, completed)
+- `status` (enum: active, inactive)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
-### `grades`
-- `grade_id` (PK, UUID)
-- `student_id` (FK → students)
-- `assignment_id` (FK → assignments)
-- `class_id` (FK → classes)
-- `subject_id` (FK → subjects)
-- `marks_obtained` (decimal)
-- `total_marks` (decimal)
-- `grade_letter` (enum: A+, A, B+, B, C+, C, D, F)
-- `remarks` (text, optional)
-- `graded_by` (FK → employees, where employee_type = 'teacher')
-- `graded_date` (date)
+### `child_milestones`
+- `child_milestone_id` (PK, UUID)
+- `child_id` (FK → children)
+- `milestone_id` (FK → developmental_milestones)
+- `achieved_date` (date)
+- `age_at_achievement_months` (integer)
+- `notes` (text, optional)
+- `observed_by` (FK → employees, where employee_type IN ('caregiver', 'lead_caregiver', 'nurse'))
 - `created_at` (timestamp)
-- `updated_at` (timestamp)
 
-### `report_cards`
-- `report_card_id` (PK, UUID)
-- `student_id` (FK → students)
-- `class_id` (FK → classes)
-- `academic_year_id` (FK → academic_years)
-- `term_id` (FK → terms_semesters)
-- `overall_average` (decimal)
-- `class_position` (integer, nullable)
-- `total_students` (integer)
-- `teacher_comments` (text)
-- `principal_comments` (text, optional)
+### `progress_reports`
+- `progress_report_id` (PK, UUID)
+- `child_id` (FK → children)
+- `room_id` (FK → rooms)
+- `report_period_start` (date)
+- `report_period_end` (date)
+- `physical_development` (text)
+- `cognitive_development` (text)
+- `language_development` (text)
+- `social_development` (text)
+- `emotional_development` (text)
+- `strengths` (text)
+- `areas_for_attention` (text)
+- `caregiver_comments` (text)
+- `parent_feedback` (text, nullable)
 - `status` (enum: draft, published)
 - `published_date` (date, nullable)
+- `created_by` (FK → employees, where employee_type = 'lead_caregiver')
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
@@ -254,7 +264,7 @@ Based on research and best practices for school management systems, especially f
 
 ### `fee_payments`
 - `payment_id` (PK, UUID)
-- `student_id` (FK → students)
+- `child_id` (FK → children)
 - `fee_structure_id` (FK → fee_structure)
 - `amount_paid` (decimal)
 - `payment_date` (date)
@@ -269,7 +279,7 @@ Based on research and best practices for school management systems, especially f
 
 ### `fee_arrears`
 - `arrear_id` (PK, UUID)
-- `student_id` (FK → students)
+- `child_id` (FK → children)
 - `fee_structure_id` (FK → fee_structure)
 - `amount_due` (decimal)
 - `amount_paid` (decimal, default 0)
@@ -287,8 +297,8 @@ Based on research and best practices for school management systems, especially f
 - `announcement_id` (PK, UUID)
 - `title`
 - `content` (text)
-- `target_audience` (enum: all, students, parents, teachers, staff, specific_class)
-- `class_id` (FK → classes, nullable)
+- `target_audience` (enum: all, parents, caregivers, staff, specific_room)
+- `room_id` (FK → rooms, nullable)
 - `priority` (enum: low, normal, high, urgent)
 - `publish_date` (date)
 - `expiry_date` (date, nullable)
@@ -303,7 +313,7 @@ Based on research and best practices for school management systems, especially f
 - `title`
 - `message` (text)
 - `type` (enum: info, warning, error, success)
-- `related_entity_type` (enum: attendance, grade, fee, announcement, assignment)
+- `related_entity_type` (enum: attendance, care_log, milestone, fee, announcement, daily_report, photo)
 - `related_entity_id` (UUID, nullable)
 - `is_read` (boolean, default false)
 - `read_at` (timestamp, nullable)
@@ -327,14 +337,14 @@ Based on research and best practices for school management systems, especially f
 - `event_id` (PK, UUID)
 - `event_name`
 - `description` (text)
-- `event_type` (enum: holiday, exam, sports_day, cultural_day, parent_meeting, field_trip, other)
+- `event_type` (enum: holiday, parent_meeting, open_house, special_activity, field_trip, photo_day, other)
 - `start_date` (date)
 - `end_date` (date)
 - `start_time` (time, nullable)
 - `end_time` (time, nullable)
 - `location` (text, optional)
-- `target_audience` (enum: all, students, parents, teachers, staff, specific_class)
-- `class_id` (FK → classes, nullable)
+- `target_audience` (enum: all, parents, caregivers, staff, specific_room)
+- `room_id` (FK → rooms, nullable)
 - `created_by` (FK → users)
 - `status` (enum: scheduled, ongoing, completed, cancelled)
 - `created_at` (timestamp)
@@ -357,8 +367,7 @@ Based on research and best practices for school management systems, especially f
 - `holiday_id` (PK, UUID)
 - `holiday_name`
 - `holiday_date` (date)
-- `holiday_type` (enum: public_holiday, school_holiday, special_event)
-- `academic_year_id` (FK → academic_years)
+- `holiday_type` (enum: public_holiday, daycare_holiday, special_event)
 - `is_recurring` (boolean)
 - `created_at` (timestamp)
 
@@ -366,50 +375,70 @@ Based on research and best practices for school management systems, especially f
 
 ## 10. Additional Tables (Optional but Recommended)
 
-### `library_books`
-- `book_id` (PK, UUID)
-- `isbn` (unique, optional)
-- `title`
-- `author`
-- `publisher`
-- `category`
-- `total_copies` (integer)
-- `available_copies` (integer)
-- `status` (enum: available, borrowed, lost, damaged)
+### `daily_photos`
+- `photo_id` (PK, UUID)
+- `child_id` (FK → children, nullable - can be group photos)
+- `room_id` (FK → rooms)
+- `photo_url` (text)
+- `photo_date` (date)
+- `caption` (text, nullable)
+- `activity_description` (text, nullable)
+- `uploaded_by` (FK → employees, where employee_type IN ('caregiver', 'lead_caregiver'))
+- `parent_visible` (boolean, default true)
 - `created_at` (timestamp)
-- `updated_at` (timestamp)
 
-### `book_borrowings`
-- `borrowing_id` (PK, UUID)
-- `book_id` (FK → library_books)
-- `student_id` (FK → students)
-- `borrow_date` (date)
-- `due_date` (date)
-- `return_date` (date, nullable)
-- `status` (enum: borrowed, returned, overdue, lost)
-- `fine_amount` (decimal, default 0)
-- `created_at` (timestamp)
-- `updated_at` (timestamp)
-
-### `transport_routes`
-- `route_id` (PK, UUID)
-- `route_name`
+### `meal_plans`
+- `meal_plan_id` (PK, UUID)
+- `meal_name` (e.g., "Breakfast", "Morning Snack", "Lunch", "Afternoon Snack")
+- `meal_time` (time)
 - `description` (text)
-- `pickup_location`
-- `dropoff_location`
-- `driver_id` (FK → employees, where employee_type IN ('security', 'other'))
-- `vehicle_number`
+- `age_appropriate_min_months` (integer)
+- `age_appropriate_max_months` (integer)
+- `allergen_info` (text, nullable)
 - `status` (enum: active, inactive)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
-### `student_transport`
-- `student_transport_id` (PK, UUID)
-- `student_id` (FK → students)
-- `route_id` (FK → transport_routes)
-- `pickup_time` (time)
-- `dropoff_time` (time)
-- `status` (enum: active, inactive)
+### `child_meal_logs`
+- `meal_log_id` (PK, UUID)
+- `child_id` (FK → children)
+- `meal_plan_id` (FK → meal_plans)
+- `meal_date` (date)
+- `meal_time` (time)
+- `amount_consumed` (enum: all, most, half, little, none)
+- `notes` (text, nullable)
+- `logged_by` (FK → employees, where employee_type IN ('caregiver', 'lead_caregiver'))
+- `created_at` (timestamp)
+
+### `medical_records`
+- `medical_record_id` (PK, UUID)
+- `child_id` (FK → children)
+- `record_type` (enum: vaccination, illness, injury, medication, checkup, emergency)
+- `record_date` (date)
+- `description` (text)
+- `doctor_name` (text, nullable)
+- `clinic_hospital` (text, nullable)
+- `medication_name` (text, nullable)
+- `medication_dosage` (text, nullable)
+- `medication_frequency` (text, nullable)
+- `notes` (text, nullable)
+- `document_url` (text, nullable - for medical certificates, prescriptions)
+- `recorded_by` (FK → employees, where employee_type IN ('nurse', 'lead_caregiver', 'administrator'))
+- `created_at` (timestamp)
+- `updated_at` (timestamp)
+
+### `authorized_pickup_persons`
+- `authorized_person_id` (PK, UUID)
+- `child_id` (FK → children)
+- `first_name`
+- `last_name`
+- `relationship` (text, e.g., "Aunt", "Grandmother", "Family Friend")
+- `phone_number`
+- `email` (nullable)
+- `photo_url` (nullable - for identification)
+- `id_document_url` (text, nullable)
+- `is_active` (boolean, default true)
+- `authorized_by` (FK → parents_guardians)
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 
@@ -420,16 +449,25 @@ Based on research and best practices for school management systems, especially f
 **Total Recommended Tables: ~35-40 tables**
 
 ### Core Categories:
-1. **User Management** (users, students, parents_guardians, employees)
-2. **Academic Structure** (academic_years, terms, classes, subjects)
+1. **User Management** (users, children, parents_guardians, employees)
+2. **Room & Activity Structure** (rooms, activities, daily_schedules)
 3. **Enrollment** (enrollments)
-4. **Attendance** (attendance, attendance_summary)
-5. **Academic Performance** (assignments, grades, report_cards)
+4. **Daily Care & Attendance** (daily_check_in_out, daily_care_logs, attendance_summary)
+5. **Developmental Progress** (developmental_milestones, child_milestones, progress_reports)
 6. **Financial** (fee_structure, fee_payments, fee_arrears)
 7. **Communication** (announcements, notifications, messages)
 8. **Events** (events, holidays)
 9. **Settings** (school_settings)
-10. **Optional Features** (library, transport)
+10. **Additional Features** (daily_photos, meal_plans, child_meal_logs, medical_records, authorized_pickup_persons)
 
-This schema provides a comprehensive foundation for managing all aspects of Caritas Kiddie Academy.
+### Key Features for Infant/Toddler Care:
+- **Daily Care Logs**: Track feeding, diaper changes, naps, activities, and mood
+- **Developmental Milestones**: Monitor physical, cognitive, language, social, and emotional development
+- **Medical Records**: Track vaccinations, illnesses, medications, and health information
+- **Meal Planning**: Age-appropriate meal plans and consumption tracking
+- **Photo Sharing**: Daily photos for parents to see their child's activities
+- **Authorized Pickup**: Secure system for managing who can pick up children
+- **Real-time Updates**: Parents receive notifications about daily activities, care logs, and milestones
+
+This schema provides a comprehensive foundation for managing all aspects of Caritas Kiddie Academy daycare/nursery for infants and toddlers (6 months - 2 years).
 

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Caritas Kiddie Academy - School Management System",
+  title: "Caritas Kiddie Academy School Management System",
   description: "School Management System for Caritas Kiddie Academy",
 };
 

@@ -24,3 +24,35 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Firefox - Auto (shows only when needed) */
+* {
+  scrollbar-width: auto;
+}
+
+/* Chrome, Edge, Safari - Hidden by default, shown on hover */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 20px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Show scrollbar thumb on hover of scrollable element */
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Show scrollbar when actively scrolling */
+*:active::-webkit-scrollbar-thumb,
+*:focus::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+}

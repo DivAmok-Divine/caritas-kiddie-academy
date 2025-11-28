@@ -265,78 +265,78 @@ export default function SignupPage() {
               {/* First Name and Last Name Inputs - Side by Side */}
               <div className="grid grid-cols-2 gap-2 sm:gap-2 md:gap-2.5 lg:gap-2 xl:gap-4 2xl:gap-5">
                 <Input
-                  id="first_name"
-                  name="first_name"
-                  type="text"
+                      id="first_name"
+                      name="first_name"
+                      type="text"
                   label="First Name"
                   leftIcon={<UserIcon />}
-                  autoComplete="given-name"
-                  required
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  placeholder="First Name"
-                />
+                      autoComplete="given-name"
+                      required
+                      value={formData.first_name}
+                      onChange={handleChange}
+                      placeholder="First Name"
+                    />
                 <Input
-                  id="last_name"
-                  name="last_name"
-                  type="text"
+                      id="last_name"
+                      name="last_name"
+                      type="text"
                   label="Last Name"
                   leftIcon={<UserIcon />}
-                  autoComplete="family-name"
-                  required
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  placeholder="Last Name"
-                />
+                      autoComplete="family-name"
+                      required
+                      value={formData.last_name}
+                      onChange={handleChange}
+                      placeholder="Last Name"
+                    />
               </div>
 
               {/* Email and Phone Number Inputs - Side by Side */}
               <div className="grid grid-cols-2 gap-2 sm:gap-2 md:gap-2.5 lg:gap-2 xl:gap-4 2xl:gap-5">
                 <Input
-                  id="email"
-                  name="email"
-                  type="email"
+                      id="email"
+                      name="email"
+                      type="email"
                   label="Email"
                   leftIcon={<EmailIcon />}
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email Address"
-                />
+                      autoComplete="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email Address"
+                    />
                 <Input
-                  id="phone_number"
-                  name="phone_number"
-                  type="tel"
+                      id="phone_number"
+                      name="phone_number"
+                      type="tel"
                   label="Phone Number"
                   leftIcon={<PhoneIcon />}
-                  autoComplete="tel"
-                  required
-                  value={formData.phone_number}
-                  onChange={handleChange}
-                  placeholder="Phone Number"
-                />
+                      autoComplete="tel"
+                      required
+                      value={formData.phone_number}
+                      onChange={handleChange}
+                      placeholder="Phone Number"
+                    />
               </div>
 
               {/* Username Input */}
               <Input
-                id="username"
-                name="username"
-                type="text"
+                    id="username"
+                    name="username"
+                    type="text"
                 label="Username"
                 leftIcon={<UserIcon />}
-                autoComplete="username"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                placeholder="Username"
-              />
+                    autoComplete="username"
+                    required
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Username"
+                  />
 
               {/* Password Input */}
               <Input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
                 label="Password"
                 leftIcon={<LockIcon />}
                 rightIcon={
@@ -357,9 +357,9 @@ export default function SignupPage() {
 
               {/* Confirm Password Input */}
               <Input
-                id="confirm_password"
-                name="confirm_password"
-                type={showConfirmPassword ? "text" : "password"}
+                    id="confirm_password"
+                    name="confirm_password"
+                    type={showConfirmPassword ? "text" : "password"}
                 label="Confirm Password"
                 leftIcon={<LockIcon />}
                 rightIcon={

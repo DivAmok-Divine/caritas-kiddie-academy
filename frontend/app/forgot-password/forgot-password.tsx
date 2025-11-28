@@ -167,17 +167,17 @@ export default function ForgotPasswordPage() {
               <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-2.5 md:space-y-3 lg:space-y-3 xl:space-y-5 2xl:space-y-7">
                 {/* Email Input */}
                 <Input
-                  id="email"
-                  name="email"
-                  type="email"
+                      id="email"
+                      name="email"
+                      type="email"
                   label="Email Address"
                   leftIcon={<EmailIcon className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 xl:h-6 xl:w-6" />}
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={handleChange}
-                  placeholder="Enter your email address"
-                />
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={handleChange}
+                      placeholder="Enter your email address"
+                    />
 
                 {/* Primary Button */}
                 <Button

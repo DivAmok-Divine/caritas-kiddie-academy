@@ -27,11 +27,20 @@ const Button: React.FC<ButtonProps> = ({
 
   // Variant classes
   const variantClasses = {
-    primary: "text-white bg-blue-600 hover:bg-blue-700 border border-blue-600 focus:border-blue-500",
-    secondary: "text-white bg-gray-600 hover:bg-gray-700 border border-gray-600 focus:border-gray-500",
-    outline: "text-blue-600 bg-transparent hover:bg-blue-50 border border-blue-600 focus:border-blue-500",
-    ghost: "text-blue-600 bg-transparent hover:bg-blue-50 border border-transparent focus:border-blue-500",
-    danger: "text-white bg-red-600 hover:bg-red-700 border border-red-600 focus:border-red-500",
+    primary: "text-white border",
+    secondary: "text-white border",
+    outline: "bg-transparent border",
+    ghost: "bg-transparent border border-transparent",
+    danger: "text-white border",
+  };
+
+  // Variant styles
+  const variantStyles = {
+    primary: { backgroundColor: '#210a87', borderColor: '#210a87' },
+    secondary: { backgroundColor: '#00A3A3', borderColor: '#00A3A3' },
+    outline: { color: '#210a87', borderColor: '#210a87' },
+    ghost: { color: '#00A3A3' },
+    danger: { backgroundColor: '#FF0000', borderColor: '#FF0000' },
   };
 
   // Size classes (responsive)
@@ -47,10 +56,38 @@ const Button: React.FC<ButtonProps> = ({
   // Combine all classes
   const combinedClasses = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${widthClasses} ${className}`.trim();
 
+  const buttonStyle = variantStyles[variant];
+  const hoverStyle = variant === "primary" 
+    ? { backgroundColor: '#1a0870', borderColor: '#1a0870' }
+    : variant === "secondary"
+    ? { backgroundColor: '#008080', borderColor: '#008080' }
+    : variant === "outline"
+    ? { backgroundColor: '#210a87', color: '#FFFFFF', borderColor: '#210a87' }
+    : variant === "ghost"
+    ? { backgroundColor: '#F8F9FA', color: '#00A3A3' }
+    : { backgroundColor: '#CC0000', borderColor: '#CC0000' };
+
   return (
     <button
       className={combinedClasses}
+      style={buttonStyle}
       disabled={disabled || isLoading}
+      onMouseEnter={(e) => {
+        if (!disabled && !isLoading) {
+          Object.assign(e.currentTarget.style, hoverStyle);
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!disabled && !isLoading) {
+          if (variant === "outline") {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = '#210a87';
+            e.currentTarget.style.borderColor = '#210a87';
+          } else {
+            Object.assign(e.currentTarget.style, buttonStyle);
+          }
+        }
+      }}
       {...props}
     >
       {isLoading && (

@@ -169,18 +169,18 @@ export default function LoginPage() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-2.5 md:space-y-3 lg:space-y-3 xl:space-y-5 2xl:space-y-7">
-              {/* User Name Input */}
+              {/* Username or Email Input */}
               <Input
                 id="username_or_email"
                 name="username_or_email"
                 type="text"
-                label="User Name"
+                label="Username or Email"
                 leftIcon={<UserIcon className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 xl:h-6 xl:w-6" />}
                 autoComplete="username"
                 required
                 value={formData.username_or_email}
                 onChange={handleChange}
-                placeholder="User Name"
+                placeholder="Enter username or email"
               />
 
               {/* Password Input */}
@@ -203,7 +203,7 @@ export default function LoginPage() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Password"
+                placeholder="Enter password"
               />
 
               {/* Options Row */}

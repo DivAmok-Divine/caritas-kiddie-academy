@@ -28,8 +28,8 @@ const Input: React.FC<InputProps> = ({
   // Base input classes
   const baseInputClasses = "block w-full pl-7 sm:pl-8 md:pl-9 lg:pl-8 xl:pl-12 2xl:pl-14 pr-2 sm:pr-2.5 md:pr-3 lg:pr-2.5 xl:pr-4 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-3 2xl:py-4 text-[11px] sm:text-xs md:text-xs lg:text-[11px] xl:text-base 2xl:text-lg border border-gray-300 rounded-md bg-gray-200 focus:outline-none focus:border-blue-500 transition-colors";
 
-  // Icon color classes - changes to blue when focused
-  const iconColorClasses = isFocused ? "text-blue-500" : "text-gray-400";
+  // Icon color - changes to teal (#00A3A3) when focused, gray when not
+  const iconColorStyle = isFocused ? { color: '#00A3A3' } : { color: '#9CA3AF' };
 
   return (
     <div className={containerClassName}>
@@ -43,8 +43,8 @@ const Input: React.FC<InputProps> = ({
       )}
       <div className="relative">
         {leftIcon && (
-          <div className={`absolute inset-y-0 left-0 pl-2 sm:pl-3 lg:pl-2.5 xl:pl-4 flex items-center pointer-events-none transition-colors ${iconColorClasses}`}>
-            <div className="transition-colors">
+          <div className="absolute inset-y-0 left-0 pl-2 sm:pl-3 lg:pl-2.5 xl:pl-4 flex items-center pointer-events-none transition-colors" style={iconColorStyle}>
+            <div className="transition-colors" style={iconColorStyle}>
               {leftIcon}
             </div>
           </div>

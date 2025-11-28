@@ -223,37 +223,37 @@ export default function VerifyPage() {
               <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-2 md:space-y-2.5 lg:space-y-2 xl:space-y-4 2xl:space-y-5">
                 {/* Child Enrollment Code Input */}
                 <Input
-                  id="child_enrollment_code"
-                  name="child_enrollment_code"
-                  type="text"
+                      id="child_enrollment_code"
+                      name="child_enrollment_code"
+                      type="text"
                   label="Child Enrollment Code"
                   leftIcon={<DocumentIcon />}
-                  required
-                  value={formData.child_enrollment_code}
-                  onChange={handleChange}
-                  placeholder="CK001A"
-                  maxLength={10}
+                      required
+                      value={formData.child_enrollment_code}
+                      onChange={handleChange}
+                      placeholder="CK001A"
+                      maxLength={10}
                   className="uppercase"
-                />
+                    />
 
                 {/* Verification Code Input */}
                 <Input
-                  id="verification_code"
-                  name="verification_code"
-                  type="text"
+                      id="verification_code"
+                      name="verification_code"
+                      type="text"
                   label="Email Verification Code"
                   leftIcon={<CheckCircleIcon />}
-                  required
-                  value={formData.verification_code}
-                  onChange={handleChange}
-                  placeholder="Enter 6-digit code"
-                  maxLength={6}
+                      required
+                      value={formData.verification_code}
+                      onChange={handleChange}
+                      placeholder="Enter 6-digit code"
+                      maxLength={6}
                   helperText={
                     signupData?.email 
                       ? `Check your email (${signupData.email}) for the verification code`
                       : "Check your email for the verification code"
                   }
-                />
+                    />
 
                 {/* Submit Button */}
                 <Button
